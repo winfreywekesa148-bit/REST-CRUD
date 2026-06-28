@@ -37,6 +37,14 @@ def update_event(id):
     return jsonify(event.to_dict())
 
 # TODO: DELETE /events/<id> - Remove an event from the list
+@app.route("/events/<int:id>", methods=["DELETE"])
+def delete_event(id):
+    global events
+    event = next((e for e in events if e.id == id), None)
+    if not event:
+        return ("Event not found", 404)
+    events = [e for e in events if e.id != id]
+    return ("Event deleted", 204)
 
 if __name__ == "__main__":
     app.run(debug=True)
